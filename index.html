@@ -785,7 +785,7 @@
             { id: 116, question: "Name one U.S. military conflict after the September 11, 2001 attacks.", answer: "• (Global) War on Terror<br>• War in Afghanistan<br>• War in Iraq", important: false },
             { id: 117, question: "Name one American Indian tribe in the United States.", answer: "• Apache<br>• Cherokee<br>• Navajo<br>• Sioux<br>• Chippewa<br>• Choctaw<br>• Pueblo<br>• Iroquois<br>• Creek<br>• Blackfeet<br>• Seminole<br>• Cheyenne<br>• Arawak<br>• Shawnee<br>• Mohegan<br>• Huron<br>• Oneida<br>• Lakota<br>• Crow<br>• Teton<br>• Hopi<br>• Inuit", important: false },
             { id: 118, question: "Name one example of an American innovation.", answer: "• Light bulb<br>• Automobile (cars, internal combustion engine)<br>• Skyscrapers<br>• Airplane<br>• Assembly line<br>• Landing on the moon<br>• Integrated circuit (IC)", important: false },
-            { id: 119, question: "What is the capital of the United States?", answer: "Washington, D.C.", important: true },
+            { id: 119, question: "What is the capital of the United States?", answer: "Washington D.C.", important: true },
             { id: 120, question: "Where is the Statue of Liberty?", answer: "• New York (Harbor)<br>• Liberty Island", important: false },
             { id: 121, question: "Why does the flag have 13 stripes?", answer: "• 13 original colonies<br>• The stripes represent the original colonies", important: true, senior: true },
             { id: 122, question: "Why does the flag have 50 stars?", answer: "• One star for each state<br>• Each star represents a state<br>• 50 states", important: false },
@@ -974,6 +974,44 @@
             }
         }
 
+        // 연도를 음성으로 자연스럽게 읽도록 변환
+        function convertYearsToSpeech(text) {
+            // 2001 → two thousand one
+            text = text.replace(/\b2001\b/g, 'two thousand one');
+
+            // 1956 → nineteen fifty-six
+            text = text.replace(/\b1956\b/g, 'nineteen fifty-six');
+
+            // 1929 → nineteen twenty-nine
+            text = text.replace(/\b1929\b/g, 'nineteen twenty-nine');
+
+            // 1920 → nineteen twenty
+            text = text.replace(/\b1920\b/g, 'nineteen twenty');
+
+            // 1870 → eighteen seventy
+            text = text.replace(/\b1870\b/g, 'eighteen seventy');
+
+            // 1812 → eighteen twelve
+            text = text.replace(/\b1812\b/g, 'eighteen twelve');
+
+            // 1803 → eighteen oh three
+            text = text.replace(/\b1803\b/g, 'eighteen oh three');
+
+            // 1787 → seventeen eighty-seven
+            text = text.replace(/\b1787\b/g, 'seventeen eighty-seven');
+
+            // 1776 → seventeen seventy-six
+            text = text.replace(/\b1776\b/g, 'seventeen seventy-six');
+
+            // 1900s → the nineteen hundreds
+            text = text.replace(/\b1900s\b/g, 'the nineteen hundreds');
+
+            // 1800s → the eighteen hundreds
+            text = text.replace(/\b1800s\b/g, 'the eighteen hundreds');
+
+            return text;
+        }
+
         function speakQuestion(rawText, callback) {
             if (!('speechSynthesis' in window)) {
                 showToast('음성 합성을 지원하지 않습니다.');
@@ -987,6 +1025,9 @@
                                    .replace(/[•\[\]\(\)]/g, ' ')
                                    .replace(/\s+/g, ' ')
                                    .trim();
+
+            // 연도 변환 적용
+            cleanText = convertYearsToSpeech(cleanText);
 
             if (!cleanText) {
                 if (callback) callback();
@@ -1024,6 +1065,8 @@
                                       .replace(/[•\[\]\(\)]/g, ' ')
                                       .replace(/\s+/g, ' ')
                                       .trim();
+                // 연도 변환 적용
+                line = convertYearsToSpeech(line);
                 if (line.length > 0) {
                     cleanLines.push(line);
                 }
@@ -1400,6 +1443,9 @@
                                    .replace(/[•\[\]\(\)]/g, ' ')
                                    .replace(/\s+/g, ' ')
                                    .trim();
+
+            // 연도 변환 적용
+            cleanText = convertYearsToSpeech(cleanText);
 
             if (!cleanText) return;
 
